@@ -9,7 +9,7 @@ const Home = () => {
             <title>0AS | Home</title>
          </Head>
          <Header />
-         <main className="min-h-screen">
+         <main>
             <h2>Home</h2>
          </main>
          <Footer />

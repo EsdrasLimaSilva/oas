@@ -1,0 +1,76 @@
+@import "./variables.scss";
+
+.pageContainer {
+   @include FLEX(column, center, center);
+   gap: 24px;
+}
+
+.h1 {
+   font-size: 2.3rem;
+   position: relative;
+
+   sub {
+      font-size: 0.8rem;
+      font-weight: normal;
+      position: absolute;
+      bottom: 0;
+      left: 100%;
+   }
+}
+
+.adminForm {
+   @include FLEX(column, center, center);
+   background-color: $neutral-100;
+   padding: 32px 16px;
+   gap: 24px;
+   color: $neutral-800;
+   box-shadow: 0px 1px 2px #22222230;
+
+   label {
+      @include FLEX(column, center, flex-start);
+
+      input {
+         padding: 8px 12px;
+         outline: none;
+         border: 2px solid $neutral-500;
+         font-size: 1rem;
+
+         &:focus {
+            border-color: $primary-500;
+         }
+      }
+   }
+}
+
+.submitButton {
+   background-color: $action-500;
+   font-size: 1rem;
+   width: 100%;
+   padding: 8px 0;
+   color: $neutral-100;
+   font-weight: bold;
+   cursor: pointer;
+
+   &:disabled {
+      background-color: $action-600;
+   }
+}
+
+.errorParagraph {
+   background-color: $error-300;
+   padding: 8px 24px;
+   font-weight: 500;
+}
+
+.spinner {
+   animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+   from {
+      transform: rotate(0);
+   }
+   to {
+      transform: rotate(360deg);
+   }
+}

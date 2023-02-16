@@ -1,0 +1,66 @@
+$neutral-100: #fafafa;
+$neutral-200: #ebebeb;
+$neutral-300: #d9d9d9;
+$neutral-400: #bababa;
+$neutral-500: #969696;
+$neutral-600: #666666;
+$neutral-700: #383838;
+$neutral-800: #262626;
+$neutral-900: #171717;
+
+$primary-100: #f0f0ff;
+$primary-200: #e2e3fe;
+$primary-300: #acaff6;
+$primary-400: #7074db;
+$primary-500: #3439cb;
+$primary-600: #1f23ad;
+$primary-700: #101489;
+$primary-800: #090c5d;
+$primary-900: #030430;
+
+$warning-100: #fefee6;
+$warning-200: #fbfcbf;
+$warning-300: #f8f994;
+$warning-400: #f3f655;
+$warning-500: #e7eb20;
+$warning-600: #b5b814;
+$warning-700: #8d8f0a;
+$warning-800: #616303;
+$warning-900: #313201;
+
+$success-100: #edfee6;
+$success-200: #d0fcbf;
+$success-300: #aff994;
+$success-400: #80f655;
+$success-500: #57eb20;
+$success-600: #40b814;
+$success-700: #2d8f0a;
+$success-800: #1d6303;
+$success-900: #0e3201;
+
+$action-100: #feefe6;
+$action-200: #fcd6bf;
+$action-300: #f9b994;
+$action-400: #f69055;
+$action-500: #fa7225;
+$action-600: #b85014;
+$action-700: #8f3b0a;
+$action-800: #632603;
+$action-900: #321301;
+
+$error-100: #feebe6;
+$error-200: #fccbbf;
+$error-300: #f9a794;
+$error-400: #f67355;
+$error-500: #fa4b25;
+$error-600: #b83214;
+$error-700: #8f220a;
+$error-800: #631503;
+$error-900: #320a01;
+
+@mixin FLEX($direction, $justify, $items) {
+   display: flex;
+   flex-direction: $direction;
+   justify-content: $justify;
+   align-items: $items;
+}
