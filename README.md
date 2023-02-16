@@ -1,6 +1,6 @@
 # 0AS
 
-<img src="./public/screenshot-home.svg" style="width:100%;max-width:600px;max-height:400px;display:block;margin:0 auto;" />
+<img src="./public/screenshot-home.svg" style="width:100%;max-height:200px;display:block;margin:0 auto;" />
 
 Este é um projeto de blog pessoal com área de administração. O objetivo principal é escrever posts
 recorrentes que tratem de todas as áreas e assuntos tratados no curso de Análise e Desenvolvimento
