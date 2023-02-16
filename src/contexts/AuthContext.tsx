@@ -5,7 +5,7 @@ import nookies from "nookies";
 
 export const AuthContext = createContext<{ user: User | null }>({ user: null });
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
    const [user, setUser] = useState<User | null>(null);
 
    useEffect(() => {
@@ -23,3 +23,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
    return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };
+
+export default AuthProvider;
