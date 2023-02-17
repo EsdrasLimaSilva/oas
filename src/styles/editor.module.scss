@@ -1,0 +1,89 @@
+@import "./variables.scss";
+
+.pageContainer {
+   @include FLEX(row, flex-end, flex-start);
+   width: 100%;
+   max-width: 1300;
+   margin: 0 auto;
+   padding: 32px;
+}
+
+.editorContainer {
+   position: fixed;
+   top: 0;
+   left: 0;
+   height: 100vh;
+   background-color: $neutral-100;
+   width: 300px;
+   padding: 8px;
+}
+
+.previewContainer {
+   background-color: $neutral-100;
+   width: 800px;
+   padding: 24px;
+   margin-right: 64px;
+   min-height: 700px;
+   box-shadow: 0px 1px 2px #22222230;
+   border: 2px solid $neutral-300;
+}
+
+.toolbar {
+   @include FLEX(column, flex-start, flex-start);
+   list-style-type: none;
+   position: absolute;
+   left: 310px;
+   top: 10px;
+   gap: 8px;
+}
+
+.toolbutton {
+   @include FLEX(row, center, center);
+   background-color: $action-500;
+   color: $neutral-100;
+   width: 32px;
+   height: 32px;
+   font-size: 1rem;
+   font-weight: bold;
+   border-radius: 100%;
+   cursor: pointer;
+   transition: background-color 0.2s;
+
+   &:hover {
+      background-color: $action-600;
+   }
+}
+
+.editorElement {
+   textarea {
+      border: 2px solid $neutral-400;
+      min-height: 60px;
+      padding: 8px;
+      width: 100%;
+   }
+
+   div {
+      @include FLEX(row, center, center);
+      width: fit-content;
+      gap: 8px;
+      padding: 4px 0;
+
+
+      select {
+         border: none;
+         background-color: transparent;
+         padding: 4px;
+         outline: none;
+      }
+
+      button {
+         background-color: $error-600;
+         padding: 4px;
+         color: $neutral-100;
+         font-weight: bold;
+         font-size: 0.8rem;
+         cursor: pointer;
+
+      }
+   }
+}

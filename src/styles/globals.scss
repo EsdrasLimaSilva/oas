@@ -32,6 +32,10 @@ h1 {
 button {
    border: none;
    background-color: transparent;
+   color: inherit;
+   font-size: inherit;
+   font-weight: inherit;
+   cursor: inherit;
 }
 
 .header-home {
