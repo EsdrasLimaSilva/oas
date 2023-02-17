@@ -1,6 +1,6 @@
 import { EditorContext } from "@/contexts/EditorContext";
 import styles from "@/styles/editor.module.scss";
-import { useContext, useEffect } from "react";
+import { FormEvent, useContext, useEffect } from "react";
 import EditorElement from "./EditorElement";
 import EditorImageElement from "./EditorImageElement";
 import Toolbar from "./Toolbar";
@@ -10,18 +10,38 @@ const EditorContainer = () => {
    const { editorState, editorUtils, focusedElement } = context!;
 
    useEffect(() => {
-      editorUtils.pushElement("p");
-      editorUtils.pushElement("p");
-      editorUtils.pushElement("p");
-   }, []);
+      if (typeof window != undefined && localStorage.getItem("localData")) {
+         const data = JSON.parse(localStorage.getItem("localData")!);
+         editorUtils.setState(data);
+      }
+   }, [editorUtils]);
 
    useEffect(() => {
       document.getElementById(focusedElement)?.focus();
    }, [focusedElement]);
 
+   const handleSubmit = (e: FormEvent) => {
+      e.preventDefault();
+      editorUtils.save();
+   };
+
    return (
-      <div className={styles.editorContainer}>
+      <div
+         className={styles.editorContainer}
+         onKeyDown={(e) => {
+            if (e.key == "Enter") {
+               e.preventDefault();
+               const relativeIndex = editorUtils.findElementIndex(
+                  (e.target as HTMLTextAreaElement).id,
+                  editorState,
+               );
+               editorUtils.appendParagraph(relativeIndex);
+               return false;
+            }
+         }}
+      >
          <Toolbar />
+
          {editorState.map((element) => {
             if (element.tag == "img") {
                return (
@@ -45,6 +65,15 @@ const EditorContainer = () => {
                );
             }
          })}
+
+         <form onSubmit={handleSubmit} className={styles.mainForm}>
+            <h2>Meta data</h2>
+            <input type="text" placeholder="título do post" required />
+            <textarea cols={30} rows={10} placeholder="meta description" required></textarea>
+            <input type="text" placeholder="tags, separadas, por vírgulas" required />
+
+            <button type="submit">save</button>
+         </form>
       </div>
    );
 };

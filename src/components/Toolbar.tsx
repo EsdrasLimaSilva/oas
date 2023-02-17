@@ -1,21 +1,26 @@
-import styles from "@/styles/editor.module.scss";
+import { EditorContext } from "@/contexts/EditorContext";
+import { useContext } from "react";
 import { BsFillImageFill, BsParagraph } from "react-icons/bs";
 import Toolbutton from "./Toolbutton";
+import styles from "@/styles/editor.module.scss";
 
 const Toolbar = () => {
+   const context = useContext(EditorContext);
+   const { editorUtils } = context!;
+
    return (
       <div className={styles.toolbar}>
-         <Toolbutton>
+         <Toolbutton onClick={() => editorUtils.pushElement("p")}>
             <BsParagraph />
          </Toolbutton>
 
-         <Toolbutton>
+         <Toolbutton onClick={() => editorUtils.pushImage()}>
             <BsFillImageFill />
          </Toolbutton>
 
-         <Toolbutton>h1</Toolbutton>
-         <Toolbutton>h2</Toolbutton>
-         <Toolbutton>h3</Toolbutton>
+         <Toolbutton onClick={() => editorUtils.pushElement("h1")}>h1</Toolbutton>
+         <Toolbutton onClick={() => editorUtils.pushElement("h2")}>h2</Toolbutton>
+         <Toolbutton onClick={() => editorUtils.pushElement("h3")}>h3</Toolbutton>
       </div>
    );
 };

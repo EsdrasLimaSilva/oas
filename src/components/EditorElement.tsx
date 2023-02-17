@@ -40,7 +40,12 @@ const EditorElement = ({ elementTag, elementKey, content, editorUtils }: Props) 
             </button>
          </div>
 
-         <textarea id={elementKey} onChange={handleChange} value={content}></textarea>
+         <textarea
+            id={elementKey}
+            onChange={handleChange}
+            value={content}
+            spellCheck={false}
+         ></textarea>
       </div>
    );
 };

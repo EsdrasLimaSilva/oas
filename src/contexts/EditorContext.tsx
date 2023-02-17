@@ -20,6 +20,7 @@ export type EditorUtilsType = {
    changeElement: (key: string, newTag: string) => void;
    removeElement: (key: string) => void;
    save(): void;
+   setState(data: EditorDataType): void;
 };
 
 export const EditorContext = createContext<{
@@ -32,12 +33,12 @@ const EditorProvider = ({ children }: { children: ReactNode }) => {
    const [editorState, setEditorState] = useState<EditorDataType>([]);
    const [focusedElement, setFocusedElement] = useState("");
 
-   const setState = (data: EditorDataType) => {
-      setEditorState(() => data);
-   };
-
    const editorUtils = useMemo(
       () => ({
+         setState(data: EditorDataType) {
+            setEditorState(() => data);
+         },
+
          findElementIndex(elementKey: string, state: EditorDataType) {
             const index = state.findIndex((el) => el.key == elementKey);
             return index;
@@ -58,7 +59,6 @@ const EditorProvider = ({ children }: { children: ReactNode }) => {
                firstPart.push({ tag: "p", content: "", key: newParagraphId });
 
                const newState = [...firstPart, ...secondPart];
-               console.log("-->", firstPart);
 
                setFocusedElement(newParagraphId);
                return newState;
@@ -110,7 +110,10 @@ const EditorProvider = ({ children }: { children: ReactNode }) => {
          },
 
          save() {
-            localStorage.setItem("localData", JSON.stringify(editorState));
+            setEditorState((prev) => {
+               localStorage.setItem("localData", JSON.stringify(prev));
+               return prev;
+            });
          },
       }),
       [],
