@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import signIn from "@/services/signIn";
 import Head from "next/head";
-import { ImSpinner7, ImSpinner8, ImSpinner9 } from "react-icons/im";
+import { ImSpinner8 } from "react-icons/im";
 import styles from "@/styles/admin.module.scss";
 
 const Admin = () => {
