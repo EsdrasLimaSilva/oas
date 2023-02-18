@@ -4,10 +4,9 @@ import EditorProvider from "@/contexts/EditorContext";
 import Head from "next/head";
 import styles from "@/styles/editor.module.scss";
 import { GetServerSidePropsContext } from "next";
-import { getRecentPosts, getSpecificPost } from "@/services/sanityClient";
-import { useEffect } from "react";
+import { getSpecificPost, ResponsePost } from "@/services/sanityClient";
 
-const Editor = () => {
+const Editor = ({ post }: { post: ResponsePost }) => {
    return (
       <>
          <Head>
@@ -15,7 +14,7 @@ const Editor = () => {
          </Head>
          <main className={styles.pageContainer}>
             <EditorProvider>
-               <EditorContainer />
+               <EditorContainer post={post} />
                <EditorPreview />
             </EditorProvider>
          </main>
@@ -24,23 +23,26 @@ const Editor = () => {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-   const postId = String(ctx.query.postId);
-   const sanityResponse = await getSpecificPost(postId);
-   console.log(sanityResponse);
+   try {
+      const postId = String(ctx.query.postId);
+      const sanityResponse = await getSpecificPost(postId);
 
-   if (sanityResponse.length === 0) {
+      if (sanityResponse.length === 0) {
+         return {
+            redirect: {
+               permanent: false,
+               destination: "/admin/dashboard",
+            },
+            props: {},
+         };
+      }
+
       return {
-         redirect: {
-            permanent: false,
-            destination: "/admin/dashboard",
+         props: {
+            post: sanityResponse[0],
          },
-         props: {},
       };
-   }
-
-   return {
-      props: {},
-   };
+   } catch (err) {}
 };
 
 export default Editor;

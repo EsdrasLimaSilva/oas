@@ -1,5 +1,5 @@
 import { EditorContext } from "@/contexts/EditorContext";
-import { getSpecificPost } from "@/services/sanityClient";
+import { getSpecificPost, ResponsePost } from "@/services/sanityClient";
 import styles from "@/styles/editor.module.scss";
 import { GetServerSidePropsContext } from "next";
 import { FormEvent, useContext, useEffect } from "react";
@@ -7,16 +7,15 @@ import EditorElement from "./EditorElement";
 import EditorImageElement from "./EditorImageElement";
 import Toolbar from "./Toolbar";
 
-const EditorContainer = () => {
+const EditorContainer = ({ post }: { post: ResponsePost }) => {
    const context = useContext(EditorContext);
    const { editorState, editorUtils, focusedElement } = context!;
 
    useEffect(() => {
-      if (typeof window != undefined && localStorage.getItem("localData")) {
-         const data = JSON.parse(localStorage.getItem("localData")!);
-         editorUtils.setState(data);
+      if (typeof window != undefined && post.content != "") {
+         editorUtils.setState(JSON.parse(post.content));
       }
-   }, [editorUtils]);
+   }, [editorUtils, post]);
 
    useEffect(() => {
       document.getElementById(focusedElement)?.focus();
@@ -25,7 +24,9 @@ const EditorContainer = () => {
    const handleSubmit = (e: FormEvent) => {
       e.preventDefault();
       editorUtils.save();
-      console.log(JSON.stringify(editorState));
+      const jsonState = JSON.stringify(editorState);
+      console.log(jsonState);
+      console.log(JSON.parse(JSON.stringify(editorState)));
    };
 
    return (
@@ -74,6 +75,7 @@ const EditorContainer = () => {
             <input type="text" placeholder="título do post" required />
             <textarea cols={30} rows={10} placeholder="meta description" required></textarea>
             <input type="text" placeholder="tags, separadas, por vírgulas" required />
+            <input type="text" placeholder="category" required />
 
             <button type="submit">save</button>
          </form>

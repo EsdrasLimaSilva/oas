@@ -11,6 +11,7 @@ export interface Post {
 
 export interface ResponsePost extends Post {
    _id: string;
+   _type: string;
 }
 
 const client = createClient({
@@ -21,20 +22,12 @@ const client = createClient({
    token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
 });
 
-const pushToPosts = async (doc: {
-   _type: string;
-   _id: string;
-   title: string;
-   description: string;
-   content: string;
-   category: string;
-   tags: string[];
-}) => {
+const pushToPosts = async (postId: string) => {
    try {
       client
          .patch(String(process.env.NEXT_PUBLIC_SANITY_ALL_POSTS_ID))
          .setIfMissing({ all: [] })
-         .insert("before", "all[0]", [doc])
+         .insert("before", "all[0]", [{ _ref: postId }])
          .commit({
             autoGenerateArrayKeys: true,
          });
@@ -50,6 +43,7 @@ export const getPosts = async (keyword: string) => {
    description,
    tags,
    _id,
+   _type,
    content
 }`);
 
@@ -62,6 +56,7 @@ export const getSpecificPost = async (postId: string) => {
    description,
    tags,
    _id,
+   _type,
    content
 }`);
 
@@ -70,9 +65,11 @@ export const getSpecificPost = async (postId: string) => {
 
 export const createPost = async ({ title, description, content, category, tags }: Post) => {
    try {
+      const postId = uuid();
+
       const doc = {
          _type: "post",
-         _id: uuid(),
+         _id: postId,
          title,
          description,
          content,
@@ -81,9 +78,19 @@ export const createPost = async ({ title, description, content, category, tags }
       };
 
       const sanityResponse = await client.createIfNotExists(doc);
-      await pushToPosts(doc);
+      await pushToPosts(postId);
 
       return sanityResponse;
+   } catch (err) {
+      throw err;
+   }
+};
+
+export const editPost = async (post: ResponsePost) => {
+   try {
+      const doc = { ...post };
+      console.log(doc);
+      // const sanityResponse = await client.createOrReplace(doc);
    } catch (err) {
       throw err;
    }
@@ -93,7 +100,7 @@ export const getRecentPosts = async () => {
    try {
       const sanityResponse =
          await client.fetch(`*[_type == "posts" && _id == "${process.env.NEXT_PUBLIC_SANITY_ALL_POSTS_ID}"]{
-   all[0...10]
+   all[0...10]->{_id, _type, title, description, content, tags}
 }`);
 
       return sanityResponse;

@@ -11,10 +11,6 @@ import PostItem from "@/components/PostItem";
 const Dashboard = ({ recentPosts }: { recentPosts: ResponsePost[] }) => {
    const [formVisible, setFormVisible] = useState(false);
 
-   useEffect(() => {
-      console.log(recentPosts);
-   }, []);
-
    return (
       <>
          <Head>
