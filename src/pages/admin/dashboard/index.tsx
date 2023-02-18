@@ -1,16 +1,19 @@
-import { AuthContext } from "@/contexts/AuthContext";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import nookies from "nookies";
 import { firebaseAdmin } from "@/services/firebaseAdmin";
 import styles from "@/styles/dashboard.module.scss";
-import { BsFillPencilFill } from "react-icons/bs";
-import { FaTrash } from "react-icons/fa";
+import DashboardNewPostForm from "@/components/DashboardNewPostForm";
+import { getRecentPosts, Post, ResponsePost } from "@/services/sanityClient";
 import PostItem from "@/components/PostItem";
 
-const Dashboard = () => {
-   const user = useContext(AuthContext);
+const Dashboard = ({ recentPosts }: { recentPosts: ResponsePost[] }) => {
+   const [formVisible, setFormVisible] = useState(false);
+
+   useEffect(() => {
+      console.log(recentPosts);
+   }, []);
 
    return (
       <>
@@ -18,6 +21,8 @@ const Dashboard = () => {
             <title>0AS | Dashboard</title>
          </Head>
          <main className={styles.pageContainer}>
+            {formVisible && <DashboardNewPostForm setVisible={setFormVisible} />}
+
             <h1>0AS</h1>
 
             <section className={styles.dashboardContainer}>
@@ -27,31 +32,17 @@ const Dashboard = () => {
                </form>
 
                <ul className={styles.postsList}>
-                  <PostItem
-                     postTitle="Elementos de hardware e arquitetura de Von Neumann"
-                     postId="daçldfpodfa-dadlfçadjk"
-                  />
-                  <PostItem
-                     postTitle="Elementos de hardware e arquitetura de Von Neumann"
-                     postId="daçldfpodfa-dadlfçadjk"
-                  />
-                  <PostItem
-                     postTitle="Elementos de hardware e arquitetura de Von Neumann"
-                     postId="daçldfpodfa-dadlfçadjk"
-                  />
-                  <PostItem
-                     postTitle="Elementos de hardware e arquitetura de Von Neumann"
-                     postId="daçldfpodfa-dadlfçadjk"
-                  />
-                  <PostItem
-                     postTitle="Elementos de hardware e arquitetura de Von Neumann"
-                     postId="daçldfpodfa-dadlfçadjk"
-                  />
-                  <PostItem
-                     postTitle="Elementos de hardware e arquitetura de Von Neumann"
-                     postId="daçldfpodfa-dadlfçadjk"
-                  />
+                  {recentPosts.map((post) => (
+                     <PostItem postId={post._id} postTitle={post.title} key={post._id} />
+                  ))}
                </ul>
+               <button
+                  type="button"
+                  className={styles.newPostButton}
+                  onClick={() => setFormVisible(true)}
+               >
+                  novo post
+               </button>
             </section>
          </main>
       </>
@@ -63,8 +54,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       const cookies = nookies.get(ctx);
       await firebaseAdmin.auth().verifyIdToken(cookies.token);
 
+      const recentPosts = await getRecentPosts();
+
       return {
-         props: {},
+         props: {
+            recentPosts: recentPosts[0].all,
+         },
       };
    } catch (error) {
       ctx.res.writeHead(302, { location: "/admin" });

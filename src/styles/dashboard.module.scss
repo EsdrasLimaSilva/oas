@@ -7,7 +7,7 @@
 }
 
 .dashboardContainer {
-   @include FLEX(column, center, center);
+   @include FLEX(column, flex-start, center);
    width: 100vw;
    max-width: 800px;
    min-height: 200px;
@@ -78,4 +78,81 @@
       }
    }
 
+}
+
+.newPostButton {
+   background-color: $primary-500;
+   color: $neutral-100;
+   font-weight: bold;
+   padding: 4px 16px;
+   cursor: pointer;
+
+   &:hover {
+      background-color: $primary-600;
+   }
+}
+
+.dashboardNewPostForm {
+   @include FLEX(column, center, center);
+   position: absolute;
+   width: 100vw;
+   height: 100vh;
+   background-color: #22222230;
+   backdrop-filter: blur(2px);
+
+   form {
+      @include FLEX(column, center, center);
+      gap: 24px;
+      background-color: $neutral-100;
+      padding: 24px;
+
+      input {
+         font-size: 1rem;
+         padding: 4px 8px;
+         outline: none;
+         border: 2px solid $neutral-400;
+
+         &:focus {
+            border-color: $primary-500;
+         }
+      }
+
+      button {
+         background-color: $action-500;
+         color: $neutral-100;
+         padding: 6px 0;
+         font-size: 1rem;
+         font-weight: 600;
+         cursor: pointer;
+         transition: background-color 0.2s;
+         width: 64px;
+
+         &:hover {
+            background-color: $action-600;
+         }
+
+         &:disabled {
+            opacity: 0.8;
+         }
+
+         span {
+            display: block;
+            width: 16px;
+            height: 16px;
+            margin: 0 auto;
+            animation: spin 1s infinite linear;
+         }
+
+      }
+   }
+}
+
+@keyframes spin {
+   from {
+      transform: rotate(0deg);
+   }
+
+   to {
+      transform: rotate(360deg);
+   }
 }

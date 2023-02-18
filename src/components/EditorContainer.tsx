@@ -1,5 +1,7 @@
 import { EditorContext } from "@/contexts/EditorContext";
+import { getSpecificPost } from "@/services/sanityClient";
 import styles from "@/styles/editor.module.scss";
+import { GetServerSidePropsContext } from "next";
 import { FormEvent, useContext, useEffect } from "react";
 import EditorElement from "./EditorElement";
 import EditorImageElement from "./EditorImageElement";
@@ -23,6 +25,7 @@ const EditorContainer = () => {
    const handleSubmit = (e: FormEvent) => {
       e.preventDefault();
       editorUtils.save();
+      console.log(JSON.stringify(editorState));
    };
 
    return (
