@@ -1,0 +1,75 @@
+@import "./variables.scss";
+
+.main {
+   background-color: $neutral-100;
+}
+
+.headerPostPage {
+   @include FLEX(row, center, center);
+   padding: 32px 0;
+   background-color: $primary-500;
+   color: $neutral-100;
+   border-bottom: 2px solid $neutral-300;
+   box-shadow: 0px 1px 2px #22222230;
+
+
+   a {
+      font-size: 1rem;
+      font-weight: bold;
+
+   }
+}
+
+.postContent {
+   width: 100%;
+   max-width: 800px;
+   background-color: $neutral-100;
+   padding: 64px 32px;
+   margin: 0px auto;
+
+   img {
+      width: 100%;
+      display: block;
+      max-width: 600px;
+      max-height: 400px;
+      margin: 16px auto 32px auto;
+   }
+
+   h1,
+   h2,
+   h3 {
+      font-family: Inter, sans-serif;
+   }
+
+   h1 {
+      font-size: 1.6rem;
+      text-align: center;
+   }
+
+   h2 {
+      font-size: 1.4rem;
+      margin-top: 80px;
+      font-weight: 600;
+      color: $neutral-700;
+   }
+
+   h3 {
+      font-size: 1.2rem;
+      margin-bottom: -16px;
+      margin-top: 40px;
+      font-weight: 400;
+      color: $primary-800;
+   }
+
+   p {
+      margin: 24px 0;
+      font-size: 0.95rem;
+      line-height: 26px;
+   }
+}
+
+@media (max-width: 480px) {
+   .postContent {
+      padding: 64px 12px;
+   }
+}

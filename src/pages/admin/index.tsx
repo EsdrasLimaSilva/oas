@@ -21,7 +21,6 @@ const Admin = () => {
          const password = (form[1] as HTMLInputElement).value;
 
          const user = await signIn(email, password);
-         console.log(user);
 
          router.push("/admin/dashboard");
       } catch (error: unknown) {

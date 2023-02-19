@@ -61,12 +61,13 @@ button {
 
    .input-search {
       padding: 8px 24px;
-      border: 1px solid $neutral-300;
+      border: 1px solid $neutral-400;
       border-radius: 30px;
       font-size: 0.9rem;
       outline: none;
       width: 100vw;
       max-width: 500px;
+      background-color: $neutral-100;
 
       &:focus {
          border-color: $primary-400;

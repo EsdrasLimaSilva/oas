@@ -23,6 +23,7 @@ const Home = ({ recentPosts }: { recentPosts: ResponsePost[] }) => {
                         title={post.title}
                         coverUrl={post.coverUrl}
                         description={post.description}
+                        postId={post._id}
                      />
                   ))}
                </div>
@@ -38,7 +39,7 @@ export const getStaticProps = async () => {
 
    return {
       props: {
-         recentPosts: recentPosts[0].all,
+         recentPosts: recentPosts,
       },
    };
 };

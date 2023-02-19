@@ -19,7 +19,7 @@ const EditorContainer = () => {
    useEffect(() => {
       (async () => {
          const post = await getSpecificPost(String(router.query.postId));
-         setPost(post[0]);
+         setPost(post);
       })();
    }, []);
 

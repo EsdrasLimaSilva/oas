@@ -9,8 +9,7 @@ import logOut from "@/services/signOut";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import nookies from "nookies";
-import { auth } from "firebase-admin";
-import { app } from "@/services/firebaseConfig";
+
 import { firebaseAdmin } from "@/services/firebaseAdmin";
 
 const Dashboard = () => {
@@ -26,7 +25,7 @@ const Dashboard = () => {
    useEffect(() => {
       (async () => {
          const recentPosts = await getRecentPosts();
-         setRecentPosts(recentPosts[0].all);
+         setRecentPosts(recentPosts);
       })();
    }, []);
 

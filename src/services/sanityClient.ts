@@ -53,7 +53,7 @@ export const getPosts = async (keyword: string) => {
 };
 
 export const getSpecificPost = async (postId: string) => {
-   const post = await client.fetch(`*[_type == "post" && _id == "${postId}"]{
+   const sanityResponse = await client.fetch(`*[_type == "post" && _id == "${postId}"]{
    title,
    description,
    tags,
@@ -64,7 +64,7 @@ export const getSpecificPost = async (postId: string) => {
    category
 }`);
 
-   return post;
+   return sanityResponse[0];
 };
 
 export const createPost = async ({
@@ -123,7 +123,7 @@ export const getRecentPosts = async () => {
    }
 }`);
 
-      return sanityResponse;
+      return sanityResponse[0].all;
    } catch (err) {
       throw err;
    }
