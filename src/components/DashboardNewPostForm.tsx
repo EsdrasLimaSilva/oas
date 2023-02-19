@@ -1,16 +1,15 @@
 import { createPost, getRecentPosts } from "@/services/sanityClient";
 import styles from "@/styles/dashboard.module.scss";
-import { useRouter } from "next/router";
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
-import { ImSpinner10, ImSpinner7, ImSpinner8 } from "react-icons/im";
+import { FormEvent, MouseEvent, useState } from "react";
+import { ImSpinner8 } from "react-icons/im";
 
 interface Props {
    setVisible: Function;
+   setRecentPosts: Function;
 }
 
-const DashboardNewPostForm = ({ setVisible }: Props) => {
+const DashboardNewPostForm = ({ setVisible, setRecentPosts }: Props) => {
    const [creating, setCreating] = useState(false);
-   const router = useRouter();
 
    const handleSubmit = async (e: FormEvent) => {
       try {
@@ -24,8 +23,12 @@ const DashboardNewPostForm = ({ setVisible }: Props) => {
             content: "",
             category: "",
             tags: [],
+            coverUrl: "",
          });
          setVisible(false);
+
+         const recentPosts = await getRecentPosts();
+         setRecentPosts(recentPosts);
       } catch (err) {
          console.log(err);
       } finally {

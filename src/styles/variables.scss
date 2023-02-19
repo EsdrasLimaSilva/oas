@@ -58,11 +58,15 @@ $error-700: #8f220a;
 $error-800: #631503;
 $error-900: #320a01;
 
+$transparent: #22222230;
+
 @mixin FLEX($direction, $justify, $items) {
    display: flex;
    flex-direction: $direction;
    justify-content: $justify;
    align-items: $items;
+
+
 }
 
 @keyframes spin {

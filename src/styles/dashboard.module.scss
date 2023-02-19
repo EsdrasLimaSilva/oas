@@ -159,12 +159,50 @@
    cursor: pointer;
 }
 
-@keyframes spin {
-   from {
-      transform: rotate(0deg);
+.deleteWarning {
+   @include FLEX(column, center, center);
+   position: absolute;
+   top: 0;
+   left: 0;
+   background-color: $transparent;
+   width: 100vw;
+   height: 100vh;
+   backdrop-filter: blur(2px);
+
+   &>div {
+      @include FLEX(column, center, center);
+      gap: 24px;
+      padding: 8px;
+      background-color: $neutral-100;
+      width: 300px;
+      height: 140px;
+
+
+      div {
+         @include FLEX(row, center, center);
+         gap: 8px;
+
+         button {
+            padding: 8px 12px;
+            font-weight: bold;
+            color: $neutral-100;
+         }
+
+         .confirmButton {
+            background-color: $error-600;
+         }
+
+         .cancelButton {
+            background-color: $neutral-700;
+         }
+      }
    }
 
-   to {
-      transform: rotate(360deg);
+   .spinner {
+      @include FLEX(row, center, center);
+      font-size: 24px;
+      width: 32px;
+      height: 32px;
+      animation: spin 1s infinite linear;
    }
 }

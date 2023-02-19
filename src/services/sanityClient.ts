@@ -25,7 +25,7 @@ const client = createClient({
 
 const pushToPosts = async (postId: string) => {
    try {
-      client
+      await client
          .patch(String(process.env.NEXT_PUBLIC_SANITY_ALL_POSTS_ID))
          .setIfMissing({ all: [] })
          .insert("before", "all[0]", [{ _ref: postId }])
@@ -34,6 +34,18 @@ const pushToPosts = async (postId: string) => {
          });
    } catch (err) {
       throw err;
+   }
+};
+
+// you need to remove from the reference array. Otherwise you won't be able to delete it
+const removeFromPosts = async (postId: string) => {
+   try {
+      await client
+         .patch(String(process.env.NEXT_PUBLIC_SANITY_ALL_POSTS_ID))
+         .unset([`all[_ref=="${postId}"]`])
+         .commit();
+   } catch (error) {
+      throw error;
    }
 };
 
@@ -95,6 +107,16 @@ export const createPost = async ({
       return sanityResponse;
    } catch (err) {
       throw err;
+   }
+};
+
+export const deletePost = async (postId: string) => {
+   try {
+      await removeFromPosts(postId);
+      const sanityResponse = await client.delete(postId);
+      return sanityResponse;
+   } catch (error) {
+      throw error;
    }
 };
 
