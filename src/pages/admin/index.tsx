@@ -20,8 +20,10 @@ const Admin = () => {
          const email = (form[0] as HTMLInputElement).value;
          const password = (form[1] as HTMLInputElement).value;
 
-         await signIn(email, password);
-         router.replace("/admin/dashboard");
+         const user = await signIn(email, password);
+         console.log(user);
+
+         router.push("/admin/dashboard");
       } catch (error: unknown) {
          const firebaseError = error as FirebaseError;
 

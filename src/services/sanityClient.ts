@@ -7,6 +7,7 @@ export interface Post {
    content: string;
    category: string;
    tags: string[];
+   coverUrl: string;
 }
 
 export interface ResponsePost extends Post {
@@ -44,7 +45,8 @@ export const getPosts = async (keyword: string) => {
    tags,
    _id,
    _type,
-   content
+   content,
+   coverUrl
 }`);
 
    return posts;
@@ -57,13 +59,21 @@ export const getSpecificPost = async (postId: string) => {
    tags,
    _id,
    _type,
-   content
+   content,
+   coverUrl
 }`);
 
    return post;
 };
 
-export const createPost = async ({ title, description, content, category, tags }: Post) => {
+export const createPost = async ({
+   title,
+   description,
+   content,
+   category,
+   tags,
+   coverUrl,
+}: Post) => {
    try {
       const postId = uuid();
 
@@ -74,6 +84,7 @@ export const createPost = async ({ title, description, content, category, tags }
          description,
          content,
          category,
+         coverUrl,
          tags: [...tags],
       };
 
@@ -89,8 +100,8 @@ export const createPost = async ({ title, description, content, category, tags }
 export const editPost = async (post: ResponsePost) => {
    try {
       const doc = { ...post };
-      console.log(doc);
-      // const sanityResponse = await client.createOrReplace(doc);
+      const sanityResponse = await client.createOrReplace(doc);
+      return sanityResponse;
    } catch (err) {
       throw err;
    }
@@ -100,7 +111,15 @@ export const getRecentPosts = async () => {
    try {
       const sanityResponse =
          await client.fetch(`*[_type == "posts" && _id == "${process.env.NEXT_PUBLIC_SANITY_ALL_POSTS_ID}"]{
-   all[0...10]->{_id, _type, title, description, content, tags}
+   all[0...10]->{
+      title,
+      description,
+      tags,
+      _id,
+      _type,
+      content,
+      coverUrl
+   }
 }`);
 
       return sanityResponse;

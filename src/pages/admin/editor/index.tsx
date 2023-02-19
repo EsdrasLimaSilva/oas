@@ -3,10 +3,12 @@ import EditorPreview from "@/components/EditorPreview";
 import EditorProvider from "@/contexts/EditorContext";
 import Head from "next/head";
 import styles from "@/styles/editor.module.scss";
+import nookies from "nookies";
 import { GetServerSidePropsContext } from "next";
-import { getSpecificPost, ResponsePost } from "@/services/sanityClient";
+import { auth } from "firebase-admin";
+import { firebaseAdmin } from "@/services/firebaseAdmin";
 
-const Editor = ({ post }: { post: ResponsePost }) => {
+const Editor = () => {
    return (
       <>
          <Head>
@@ -14,7 +16,7 @@ const Editor = ({ post }: { post: ResponsePost }) => {
          </Head>
          <main className={styles.pageContainer}>
             <EditorProvider>
-               <EditorContainer post={post} />
+               <EditorContainer />
                <EditorPreview />
             </EditorProvider>
          </main>
@@ -24,25 +26,18 @@ const Editor = ({ post }: { post: ResponsePost }) => {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
    try {
-      const postId = String(ctx.query.postId);
-      const sanityResponse = await getSpecificPost(postId);
-
-      if (sanityResponse.length === 0) {
-         return {
-            redirect: {
-               permanent: false,
-               destination: "/admin/dashboard",
-            },
-            props: {},
-         };
-      }
+      const cookies = nookies.get(ctx);
+      await firebaseAdmin.auth().verifyIdToken(cookies.token);
 
       return {
-         props: {
-            post: sanityResponse[0],
-         },
+         props: {},
       };
-   } catch (err) {}
+   } catch (error) {
+      ctx.res.writeHead(302, { Location: "/admin" });
+      ctx.res.end();
+
+      return { props: {} as never };
+   }
 };
 
 export default Editor;

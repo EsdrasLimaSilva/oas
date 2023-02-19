@@ -1,32 +1,49 @@
 import { EditorContext } from "@/contexts/EditorContext";
-import { getSpecificPost, ResponsePost } from "@/services/sanityClient";
+import { editPost, getSpecificPost, ResponsePost } from "@/services/sanityClient";
 import styles from "@/styles/editor.module.scss";
-import { GetServerSidePropsContext } from "next";
-import { FormEvent, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import EditorElement from "./EditorElement";
 import EditorImageElement from "./EditorImageElement";
 import Toolbar from "./Toolbar";
 
-const EditorContainer = ({ post }: { post: ResponsePost }) => {
+const EditorContainer = () => {
+   const [post, setPost] = useState<ResponsePost | null>(null);
    const context = useContext(EditorContext);
    const { editorState, editorUtils, focusedElement } = context!;
+   const router = useRouter();
 
    useEffect(() => {
-      if (typeof window != undefined && post.content != "") {
-         editorUtils.setState(JSON.parse(post.content));
-      }
-   }, [editorUtils, post]);
+      (async () => {
+         const post = await getSpecificPost(String(router.query.postId));
+         setPost(post[0]);
+      })();
+   }, []);
 
    useEffect(() => {
       document.getElementById(focusedElement)?.focus();
    }, [focusedElement]);
 
-   const handleSubmit = (e: FormEvent) => {
+   const handleSubmit = async (e: FormEvent) => {
       e.preventDefault();
-      editorUtils.save();
-      const jsonState = JSON.stringify(editorState);
-      console.log(jsonState);
-      console.log(JSON.parse(JSON.stringify(editorState)));
+      const form = e.target as HTMLFormElement;
+      const title = (form[0] as HTMLInputElement).value;
+      const content = JSON.stringify(editorState);
+      const description = (form[1] as HTMLInputElement).value;
+      const tags = (form[2] as HTMLInputElement).value.split(",");
+      const category = (form[3] as HTMLInputElement).value;
+
+      const sanityResponse = await editPost({
+         _id: post!._id,
+         _type: "post",
+         title,
+         description,
+         content,
+         category,
+         tags,
+      });
+
+      console.log(sanityResponse);
    };
 
    return (
@@ -72,10 +89,21 @@ const EditorContainer = ({ post }: { post: ResponsePost }) => {
 
          <form onSubmit={handleSubmit} className={styles.mainForm}>
             <h2>Meta data</h2>
-            <input type="text" placeholder="título do post" required />
-            <textarea cols={30} rows={10} placeholder="meta description" required></textarea>
-            <input type="text" placeholder="tags, separadas, por vírgulas" required />
-            <input type="text" placeholder="category" required />
+            <input type="text" placeholder="título do post" defaultValue={post?.title} required />
+            <textarea
+               cols={30}
+               rows={10}
+               placeholder="meta description"
+               defaultValue={post?.description}
+               required
+            ></textarea>
+            <input
+               type="text"
+               placeholder="tags, separadas, por vírgulas"
+               defaultValue={post?.tags.join(",")}
+               required
+            />
+            <input type="text" placeholder="category" defaultValue={post?.category} required />
 
             <button type="submit">save</button>
          </form>
