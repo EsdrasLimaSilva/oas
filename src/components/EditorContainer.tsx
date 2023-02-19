@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { EditorContext } from "@/contexts/EditorContext";
 import { editPost, getSpecificPost, ResponsePost } from "@/services/sanityClient";
 import styles from "@/styles/editor.module.scss";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect, useState } from "react";
+import { ImSpinner10, ImSpinner11, ImSpinner6, ImSpinner7, ImSpinner8 } from "react-icons/im";
 import EditorElement from "./EditorElement";
 import EditorImageElement from "./EditorImageElement";
 import Toolbar from "./Toolbar";
 
 const EditorContainer = () => {
    const [post, setPost] = useState<ResponsePost | null>(null);
+   const [saving, setSaving] = useState(false);
    const context = useContext(EditorContext);
    const { editorState, editorUtils, focusedElement } = context!;
    const router = useRouter();
@@ -21,29 +24,43 @@ const EditorContainer = () => {
    }, []);
 
    useEffect(() => {
+      if (post) {
+         editorUtils.setState(JSON.parse(post.content));
+      }
+   }, [post]);
+
+   useEffect(() => {
       document.getElementById(focusedElement)?.focus();
    }, [focusedElement]);
 
    const handleSubmit = async (e: FormEvent) => {
       e.preventDefault();
-      const form = e.target as HTMLFormElement;
-      const title = (form[0] as HTMLInputElement).value;
-      const content = JSON.stringify(editorState);
-      const description = (form[1] as HTMLInputElement).value;
-      const tags = (form[2] as HTMLInputElement).value.split(",");
-      const category = (form[3] as HTMLInputElement).value;
+      if (post) {
+         try {
+            setSaving(true);
+            const form = e.target as HTMLFormElement;
+            const title = (form[0] as HTMLInputElement).value;
+            const content = JSON.stringify(editorState);
+            const description = (form[1] as HTMLInputElement).value;
+            const tags = (form[2] as HTMLInputElement).value.split(",");
+            const category = (form[3] as HTMLInputElement).value;
+            const coverUrl = (form[4] as HTMLInputElement).value;
 
-      const sanityResponse = await editPost({
-         _id: post!._id,
-         _type: "post",
-         title,
-         description,
-         content,
-         category,
-         tags,
-      });
-
-      console.log(sanityResponse);
+            const sanityResponse = await editPost({
+               _id: post!._id,
+               _type: "post",
+               title,
+               description,
+               content,
+               category,
+               tags,
+               coverUrl,
+            });
+         } catch (error) {
+         } finally {
+            setSaving(false);
+         }
+      }
    };
 
    return (
@@ -104,8 +121,17 @@ const EditorContainer = () => {
                required
             />
             <input type="text" placeholder="category" defaultValue={post?.category} required />
+            <input type="text" placeholder="coverUrl" defaultValue={post?.coverUrl} required />
 
-            <button type="submit">save</button>
+            <button type="submit" disabled={saving}>
+               {saving ? (
+                  <span>
+                     <ImSpinner8 />
+                  </span>
+               ) : (
+                  "save"
+               )}
+            </button>
          </form>
       </div>
    );

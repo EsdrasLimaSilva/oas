@@ -1,0 +1,50 @@
+@import "./variables.scss";
+
+.post {
+   width: 300px;
+   height: 320px;
+   padding: 16px;
+   background-color: $neutral-100;
+   flex-shrink: 0;
+   box-shadow: 0 1px 3px #22222230;
+}
+
+.cover {
+   height: 150px;
+   width: 100%;
+}
+
+.info {
+   @include FLEX(column, flex-start, flex-start);
+   gap: 8px;
+   padding: 10px 0;
+
+   a {
+      font-size: 1.15rem;
+      color: $primary-900;
+      font-weight: 600;
+   }
+
+   p {
+      font-size: 0.9rem;
+   }
+}
+
+.recentPosts {
+   @include FLEX(column, flex-start, flex-start);
+   gap: 16px;
+   width: 100%;
+   padding: 16px 32px;
+   width: fit-content;
+
+   &>h2 {
+      font-size: 1.2rem;
+   }
+}
+
+.postList {
+   @include FLEX(row, flex-start, flex-start);
+   width: 100%;
+   flex-wrap: wrap;
+   gap: 24px;
+}

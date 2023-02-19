@@ -5,7 +5,6 @@ import Head from "next/head";
 import styles from "@/styles/editor.module.scss";
 import nookies from "nookies";
 import { GetServerSidePropsContext } from "next";
-import { auth } from "firebase-admin";
 import { firebaseAdmin } from "@/services/firebaseAdmin";
 
 const Editor = () => {

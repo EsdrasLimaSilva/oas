@@ -188,9 +188,21 @@
    }
 
    button {
+      @include FLEX(row, center, center);
       width: 100%;
       background-color: $success-800;
       color: $neutral-100;
       padding: 8px 0;
+
+      span {
+         display: block;
+         width: 16px;
+         height: 16px;
+         animation: spin 1s infinite linear;
+      }
+
+      &:disabled {
+         background-color: $success-900;
+      }
    }
 }

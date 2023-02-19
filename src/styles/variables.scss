@@ -64,3 +64,13 @@ $error-900: #320a01;
    justify-content: $justify;
    align-items: $items;
 }
+
+@keyframes spin {
+   from {
+      transform: rotate(0);
+   }
+
+   to {
+      transform: rotate(360deg);
+   }
+}

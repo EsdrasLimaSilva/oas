@@ -60,7 +60,8 @@ export const getSpecificPost = async (postId: string) => {
    _id,
    _type,
    content,
-   coverUrl
+   coverUrl,
+   category
 }`);
 
    return post;
