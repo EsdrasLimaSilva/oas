@@ -60,6 +60,7 @@ button {
    }
 
    form {
+      @include FLEX(row, center, center);
       width: 100%;
    }
 
