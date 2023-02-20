@@ -50,8 +50,8 @@ const removeFromPosts = async (postId: string) => {
 };
 
 export const getPosts = async (keyword: string) => {
-   const posts =
-      await client.fetch(`*[_type == "post" && _id == "${keyword}" || category match "${keyword}" || "${keyword} in tags"]{
+   const sanityResponse =
+      await client.fetch(`*[_type == "post" && _id == "${keyword}" || category match "${keyword}" || "${keyword}" in tags]{
    title,
    description,
    tags,
@@ -61,7 +61,7 @@ export const getPosts = async (keyword: string) => {
    coverUrl
 }`);
 
-   return posts;
+   return sanityResponse;
 };
 
 export const getSpecificPost = async (postId: string) => {

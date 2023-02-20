@@ -48,3 +48,15 @@
    flex-wrap: wrap;
    gap: 24px;
 }
+
+.searchedPosts {
+   @extend .recentPosts;
+
+   button {
+      @include FLEX(row, center, center);
+      gap: 8px;
+      font-size: 1.1rem;
+      padding: 4px 8px;
+      cursor: pointer;
+   }
+}

@@ -1,33 +1,59 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import HomePost from "@/components/HomePost";
-import { getRecentPosts, ResponsePost } from "@/services/sanityClient";
+import RecentPosts from "@/components/RecentPosts";
+import SearchedPosts from "@/components/SearchedPosts";
+import { getPosts, getRecentPosts, ResponsePost } from "@/services/sanityClient";
 import Head from "next/head";
-import styles from "@/styles/home.module.scss";
+import { useState } from "react";
+import { ImSpinner8 } from "react-icons/im";
+
+interface SearchType {
+   searching: boolean;
+   query: string;
+   result: [] | ResponsePost[];
+}
 
 const Home = ({ recentPosts }: { recentPosts: ResponsePost[] }) => {
+   const [search, setSearch] = useState<SearchType>({ searching: false, query: "", result: [] });
+
+   const resetSearch = () => {
+      setSearch({ searching: false, query: "", result: [] });
+   };
+
+   const startSearch = async (query: string) => {
+      try {
+         setSearch((prev) => ({ ...prev, searching: true, query }));
+         const posts: ResponsePost[] = await getPosts(query);
+         setSearch((prev) => ({ ...prev, result: [...posts] }));
+         console.log(posts);
+      } catch (error) {
+      } finally {
+         setSearch((prev) => ({ ...prev, searching: false }));
+      }
+   };
+
    return (
       <>
          <Head>
             <title>0AS | Home</title>
          </Head>
-         <Header />
+         <Header startSearch={startSearch} />
          <main>
-            <section className={styles.recentPosts}>
-               <h2>Recentes</h2>
+            {search.searching ? (
+               <span className="searchSpinner">
+                  <p>procurando posts</p>
 
-               <div className={styles.postList}>
-                  {recentPosts.map((post: any) => (
-                     <HomePost
-                        key={post._id}
-                        title={post.title}
-                        coverUrl={post.coverUrl}
-                        description={post.description}
-                        postId={post._id}
-                     />
-                  ))}
-               </div>
-            </section>
+                  <span>
+                     <ImSpinner8 />
+                  </span>
+               </span>
+            ) : search.result.length > 0 ? (
+               <SearchedPosts searchResult={search.result} resetSearch={resetSearch} />
+            ) : search.query == "" ? (
+               <RecentPosts recentPosts={recentPosts} />
+            ) : (
+               <h2>Nada encontrado</h2>
+            )}
          </main>
          <Footer />
       </>

@@ -1,12 +1,26 @@
+import { FormEvent } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
-const Header = () => {
+const Header = ({ startSearch }: { startSearch: Function }) => {
+   const handleSubmit = (e: FormEvent) => {
+      e.preventDefault();
+      const query = ((e.target as HTMLFormElement)[0] as HTMLInputElement).value;
+      startSearch(query);
+   };
+
    return (
       <header className="header-home">
          <div>
             <h1>0 Analista de Sistemas</h1>
 
-            <input type="search" placeholder="encontre o que procura" className="input-search" />
+            <form onSubmit={handleSubmit}>
+               <input
+                  type="search"
+                  placeholder="encontre o que procura"
+                  className="input-search"
+                  required
+               />
+            </form>
          </div>
 
          <div className="social">
