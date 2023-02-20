@@ -65,7 +65,7 @@ Para rodar a aplicação será preciso configurar alguns serviços:
 
 ## Schema do arquivo post.ts (sanity)
 
-<img src="./public/schema-post.png" />
+<img src="./public/schema-post.png" height="500px" />
 
 ## schema do arquivos posts.ts (sanity)
 
