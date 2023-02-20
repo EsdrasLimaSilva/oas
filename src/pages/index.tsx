@@ -72,6 +72,8 @@ export const getStaticProps = async () => {
       props: {
          recentPosts: recentPosts,
       },
+
+      revalidate: 60 * 60 * 24, // resets every 24 hours
    };
 };
 
