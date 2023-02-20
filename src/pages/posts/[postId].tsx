@@ -4,6 +4,7 @@ import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import styles from "@/styles/post.module.scss";
+import Link from "next/link";
 
 const Post = ({ postData }: { postData: ResponsePost }) => {
    const [postContent] = useState(JSON.parse(postData.content));
@@ -16,7 +17,7 @@ const Post = ({ postData }: { postData: ResponsePost }) => {
             <meta name="author" content="Esdras Silva" />
          </Head>
          <header className={styles.headerPostPage}>
-            <a href="/">O Analista de Sistemas</a>
+            <Link href="/">O Analista de Sistemas</Link>
          </header>
          <main className={styles.main}>
             <section className={styles.postContent}>

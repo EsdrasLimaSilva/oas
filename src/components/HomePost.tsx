@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from "@/styles/home.module.scss";
+import Link from "next/link";
 
 const HomePost = ({
    title,
@@ -16,7 +17,7 @@ const HomePost = ({
       <div className={styles.post}>
          <img src={coverUrl} alt="capa do post" className={styles.cover} draggable={false} />
          <div className={styles.info}>
-            <a href={`/posts/${postId}`}>{title}</a>
+            <Link href={`/posts/${postId}`}>{title}</Link>
             <p>{description}</p>
          </div>
       </div>
