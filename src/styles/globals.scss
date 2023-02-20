@@ -59,13 +59,17 @@ button {
       gap: 8px;
    }
 
+   form {
+      width: 100%;
+   }
+
    .input-search {
       padding: 8px 24px;
       border: 1px solid $neutral-400;
       border-radius: 30px;
       font-size: 0.9rem;
       outline: none;
-      width: 100vw;
+      width: 100%;
       max-width: 500px;
       background-color: $neutral-100;
 
@@ -107,5 +111,29 @@ button {
       width: 32px;
       height: 32px;
       animation: spin 1s infinite linear;
+   }
+}
+
+.noResults {
+   padding: 8px;
+
+   button {
+      font-size: 1.2rem;
+      cursor: pointer;
+   }
+
+   h2 {
+      font-weight: normal;
+      font-size: 1rem;
+   }
+}
+
+@media (max-width: 480px) {
+   .header-home {
+      height: 170px;
+
+      .social {
+         bottom: -10px;
+      }
    }
 }

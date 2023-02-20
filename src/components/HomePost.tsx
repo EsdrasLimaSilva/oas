@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import styles from "@/styles/home.module.scss";
 
 const HomePost = ({
@@ -13,7 +14,7 @@ const HomePost = ({
 }) => {
    return (
       <div className={styles.post}>
-         <div style={{ backgroundImage: `url(${coverUrl})` }} className={styles.cover} />
+         <img src={coverUrl} alt="capa do post" className={styles.cover} draggable={false} />
          <div className={styles.info}>
             <a href={`/posts/${postId}`}>{title}</a>
             <p>{description}</p>

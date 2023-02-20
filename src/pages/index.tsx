@@ -5,6 +5,7 @@ import SearchedPosts from "@/components/SearchedPosts";
 import { getPosts, getRecentPosts, ResponsePost } from "@/services/sanityClient";
 import Head from "next/head";
 import { useState } from "react";
+import { BsArrowLeft } from "react-icons/bs";
 import { ImSpinner8 } from "react-icons/im";
 
 interface SearchType {
@@ -25,7 +26,6 @@ const Home = ({ recentPosts }: { recentPosts: ResponsePost[] }) => {
          setSearch((prev) => ({ ...prev, searching: true, query }));
          const posts: ResponsePost[] = await getPosts(query);
          setSearch((prev) => ({ ...prev, result: [...posts] }));
-         console.log(posts);
       } catch (error) {
       } finally {
          setSearch((prev) => ({ ...prev, searching: false }));
@@ -52,7 +52,12 @@ const Home = ({ recentPosts }: { recentPosts: ResponsePost[] }) => {
             ) : search.query == "" ? (
                <RecentPosts recentPosts={recentPosts} />
             ) : (
-               <h2>Nada encontrado</h2>
+               <div className="noResults">
+                  <button type="button" onClick={resetSearch}>
+                     <BsArrowLeft /> voltar
+                  </button>
+                  <h2>Nada encontrado</h2>
+               </div>
             )}
          </main>
          <Footer />
