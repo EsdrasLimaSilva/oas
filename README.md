@@ -30,7 +30,7 @@ Para rodar a aplicação será preciso configurar alguns serviços:
 -  Possuir um projeto criado na
    <a href="https://www.sanity.io/docs/create-a-sanity-project">Sanity.io</a>. Crie um projeto
    utilizando <strong>npm create sanity@latest</strong>, dê o nome ao projeto, no "dataset" digte
-   production e escolhar um projeto sem schemas definidos.Você terá que fazer login para continuar,
+   production e escolha um projeto sem schemas definidos. Você terá que fazer login para continuar,
    mas basta seguir os passos informados no terminal.
 
 -  Quando o projeto estiver criado, na pasta <strong>schemas</strong> crie dois arquivos, um chamado
@@ -40,7 +40,7 @@ Para rodar a aplicação será preciso configurar alguns serviços:
 
 -  Para permitir o acesso ao seu projeto, digite "sanity manage" no terminal e siga até o link. Vá
    até o menu "API" e em "CORS origins" adicione o host "http://localhost:3000" ou qualquer outra
-   porta que você esteja utilizando para o projeto, sem esquecer de marcar a opção "allow
+   porta que você esteja utilizando para o projeto no front, sem esquecer de marcar a opção "allow
    credentials".
 
 -  Na mesma tela, vá em "tokens" e adicione um novo token marcando como editor. Copie o token para
@@ -56,11 +56,11 @@ Para rodar a aplicação será preciso configurar alguns serviços:
 
 -  Para configurar o firebase admin SDK (necessário para a comunicação do lado do servidor), vá em
    configurações e em "Service accounts" e clique em "Generate new private key". Será executado o
-   download de um arquivo json vários dados. Adicione os dados necessários para o projeto no arquivo
-   .env.
+   download de um arquivo json com vários dados. Adicione os dados necessários para o projeto no arquivo
+   .env. (basta conferir em /services/firebseAdmin.ts)
 
 -  Agora que os serviços externos foram configurados, clone este repositório e execute "npm
-   install". Adicione todas as informações requisitadas no diretório "services" em um arquivo .env e
+   install". Não se esqueça de adicionar todas as informações requisitadas no diretório "services" em um arquivo .env e
    execute "npm run dev" para rodar o seu projeto localmente.
 
 ## Schema do arquivo post.ts (sanity)
